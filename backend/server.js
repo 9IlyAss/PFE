@@ -10,14 +10,13 @@ app.use(cors());
 env.config()
 
 const PORT =process.env.PORT || 3000;
-
 ConnectDB();
 app.get("/",(req,res)=>{
-    res.end("<h1>hiiiiiii</hi>")
+    res.end("waaaaach amonami")
+
 });
 
 app.use("/api/users",userRoutes)
-
 app.listen(PORT, ()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
 })
