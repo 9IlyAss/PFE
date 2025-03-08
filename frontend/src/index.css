@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@tailwind/preflight;
+@tailwind utilities;
 
 #root {
   font-family: "Inter", sans-serif;
