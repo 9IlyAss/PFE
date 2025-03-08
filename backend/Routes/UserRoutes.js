@@ -2,7 +2,7 @@ const express =require("express")
 const jwt= require("jsonwebtoken")
 const User =require("../models/User")
 const Router = express.Router()
-
+const {protect} =require("../middleware/authMiddleware")
 
 
 // @route POST /api/users/register
@@ -73,6 +73,12 @@ Router.post("/login",async (req,res)=>{
     }
 });
 
+// @route Get /api/users/profile
+// @desc access to your profile
+// @access private
+Router.get("/profile",protect, (req,res)=> {
+    res.json(req.user)
+})
 
 
 module.exports = Router;
