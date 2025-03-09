@@ -101,6 +101,23 @@ const NewArrivals = () => {
         },
     ];
 
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollLeft(scrollRef.current.scrollLeft);
+    }
+
+    const handleMouseMove = (e) => {
+        if(!isDragging) return;
+        const x = e.pageX - scrollRef.current.offsetLeft;
+        const walk = x - startX;
+        scrollRef.current.scrollLeft = scrollLeft - walk;
+    }
+
+    const handleMouseUporLeave = () => {
+        setIsDragging(false);
+    }
+    
     const scroll = (direction) => {
         const scrollAmount = direction == "left" ? -300 : 300;
         scrollRef.current.scrollBy({left:scrollAmount, behaviour: "smooth"});
@@ -122,6 +139,7 @@ const NewArrivals = () => {
             scrollLeftA: container.scrollLeft,
             clientWidth: container.clientWidth,
             containerScrollWidth: container.scrollWidth,
+            offsetLeft : scrollRef.current.offsetLeft,
         });
     };
     useEffect(() => {
@@ -129,11 +147,12 @@ const NewArrivals = () => {
         if(container){
             container.addEventListener("scroll",updateScrollButtons);
             updateScrollButtons();
+            return () => container.removeEventListener("scroll",updateScrollButtons);
         }
-    })
+    }, [] )
 
   return (
-    <section>
+    <section className="py-16 px-4 lg:px-0">
         <div className="container mx-auto text-center mb-10 relative">
             <h2 className="text-3xl font-bold mb-4">Explore New Arrivals</h2>
             <p className="text-lg text-gray-600 mb-8">
@@ -157,12 +176,19 @@ const NewArrivals = () => {
         </div>
         {/* scrollable content */}
         <div ref={scrollRef}
-        className="container mx-auto overflow-x-scroll flex space-x-6 relative">
-
+        className={`container mx-auto overflow-x-scroll flex space-x-6 relative ${isDragging ? 
+            "cursor-grabbing" : "cursor-grab"}`}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUporLeave}
+            onMouseLeave={handleMouseUporLeave}
+            >
+            
              {newArrivals.map((product)=> (
                 <div key={product._id} className="min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative">
                     <img src={product.images[0]?.url} alt={product.images[0]?.altText || product.name}
-                    className="w-full h-[500px] object-cover rounded-lg" />
+                    className="w-full h-[500px] object-cover rounded-lg"
+                    draggable="false" />
                     <div className="absolute bottom-0 left-0 right-0 bg-[rgba(0,0,0,0)] backdrop-blur-md text-white
                     p-4 rounded-b-lg">
                         <Link to={`/product/${product._id}`} className="block">
