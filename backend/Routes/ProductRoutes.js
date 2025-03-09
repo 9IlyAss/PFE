@@ -86,9 +86,9 @@ Router.delete("/:id",protect,admin,async (req,res)=>{
 })
 
 // @route Get /api/products
-// @desc All product
-// @access private only admin
-Router.get("/",protect,admin,async (req,res)=>{
+// @desc Filter to get  products
+// @access Public
+Router.get("/",async (req,res)=>{
 
     try {
         const {collections,size,color,gender,minPrice,maxPrice,sortBy,
@@ -134,6 +134,64 @@ Router.get("/",protect,admin,async (req,res)=>{
         res.status(500).send("Server Error");
     }
 })
+// @route Get /api/products/best-seller
+// @desc retreve best product by rating
+// @access Public
+Router.get("/best-seller",async (req,res)=>{
+    try{
+    let bestSeller=await Product.findOne().sort({rating : -1});
+    if(!bestSeller)
+        res.status(404).json({ message: "No best-seller product found" });
+    res.status(200).json(bestSeller)
+    }
+    catch(error){
+    res.status(500).send("Server Error") 
+    }
+})
+
+// @route Get /api/products/best-seller
+// @desc retrive similar product limit 4
+// @access Public
+Router.get("/similar/:id",async (req,res)=>{
+        try {
+            let product= await Product.findById(req.params.id)
+            if(!product)
+                res.status(404).json({ message: "No product found" })
+            let sumilar= await Product.find({ _id : { $ne : product._id},
+                                            category : product.category ,
+                                            gender : product.gender}).limit(4)
+            res.status(200).json(sumilar)                               
+        } catch (error) {
+            res.status(500).send("Server Error") 
+        }
+})
+// @route Get /api/products/new-arrivals
+// @desc retrive new products
+// @access Public
+Router.get("/new-arrivals",async (req,res)=>{
+    try {
+        let newArrivals=await Product.find().sort({ createdAt: -1 }).limit(8)
+        res.json(newArrivals)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send("Server Error") 
+
+    }
+})
+// @route Get /api/products/id
+// @desc get a single product
+// @access Public
+Router.get("/:id",async (req,res)=>{
+    try {
+        let product = await Product.findById(req.params.id)
+        if(!product) 
+            return res.status(404).json({message : "Product not found"})
+        res.status(200).json(product)
+    } catch (error) {
+        res.status(500).send("Server Error")
+    }
+})
+
 
 
 module.exports=Router
