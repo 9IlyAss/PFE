@@ -6,7 +6,7 @@ const protect = async (req, res, next) => {
     if (
         req.headers.authorization &&
         req.headers.authorization.startsWith("Bearer")
-    ) {
+    )  {
         try {
             // Extract the token from the header
             token = req.headers.authorization.split(" ")[1];
@@ -28,5 +28,14 @@ const protect = async (req, res, next) => {
         });
     }
 };
+const admin= async (req,res,next)=>{
+        if(req.user&&req.user.role === "admin")
+            next()
+        else
+        res.status(401).json({
+            message: "Not authorized, You're not admin"
+        });
 
-module.exports = {protect} ;
+}
+
+module.exports = {protect,admin} ;
