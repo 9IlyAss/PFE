@@ -5,6 +5,7 @@ const app = express();
 const ConnectDB = require("./config/db")
 const userRoutes= require("./Routes/UserRoutes")
 const ProductRoutes=require("./Routes/ProductRoutes")
+const CartRoutes =require("./Routes/CartRoutes")
 app.use(express.json());
 app.use(cors());
 env.config()
@@ -18,6 +19,7 @@ app.get("/",(req,res)=>{
 
 app.use("/api/users",userRoutes)
 app.use("/api/products",ProductRoutes)
+app.use("/api/cart",CartRoutes)
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on http://localhost:${PORT}`);

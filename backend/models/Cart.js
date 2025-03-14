@@ -9,8 +9,6 @@ const CartItemSchema=new mongoose.Schema(
         },
         name : {
             type : String,
-            required : true,
-            trim : true
         },
         image :{
             type : String,
@@ -40,7 +38,6 @@ const CartSchema=new mongoose.Schema(
         user : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "User",
-            required :true
         },
         guestId : {
             type : String
