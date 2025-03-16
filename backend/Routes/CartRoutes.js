@@ -1,17 +1,17 @@
-const express =require("express")
-const Product=require("../models/Product")
-const Cart =require("../models/Cart")
+const express = require("express")
+const Product = require("../models/Product")
+const Cart = require("../models/Cart")
 
-const { protect , admin } = require("../middleware/authMiddleware")
-const Router=express.Router()
+const { protect, admin } = require("../middleware/authMiddleware")
+const Router = express.Router()
 
 
-const getCart = async (userId,guestId) => {
-    if(userId){
-        return await Cart.findOne({user : userId})
-    } 
-    else{
-        return await Cart.findOne({guestId : guestId})
+const getCart = async (userId, guestId) => {
+    if (userId) {
+        return await Cart.findOne({ user: userId })
+    }
+    else {
+        return await Cart.findOne({ guestId: guestId })
     }
     return null
 }
@@ -30,13 +30,13 @@ Router.post("/", async (req, res) => {
         if (cart) {
             const productIndex = cart.products.findIndex(
                 p => p.productId.toString() === productId &&
-                     p.size === size &&
-                     p.color === color
+                    p.size === size &&
+                    p.color === color
             );
 
             if (productIndex > -1) {
                 // If the product already exists, update the quantity
-                cart.products[productIndex].quantity += quantity; 
+                cart.products[productIndex].quantity += quantity;
             } else {
                 // Add new product
                 cart.products.push({
@@ -46,7 +46,7 @@ Router.post("/", async (req, res) => {
                     price: product.price,
                     size,
                     color,
-                    quantity, 
+                    quantity,
                 });
             }
 
@@ -61,7 +61,7 @@ Router.post("/", async (req, res) => {
         } else {
             // Create a new cart for the guest or user
             const newCart = await Cart.create({
-                user : userId ? userId : undefined,
+                user: userId ? userId : undefined,
                 guestId: guestId ? guestId : "guest_" + new Date().getTime(),
                 products: [
                     {
@@ -130,4 +130,52 @@ Router.put("/", async (req, res) => {
     }
 });
 
-module.exports=Router
+// @route DELETE /api/cart
+// @desc remove a product from cart
+// @access Public
+Router.delete("/", async (req, res) => {
+    const { guestId, userId, productId, size, color } = req.body;
+
+    try {
+        let cart = await getCart(userId, guestId);
+        if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+        const productIndex = cart.products.findIndex(
+            (p) =>
+                p.productId.toString() === productId &&
+                p.size === size &&
+                p.color === color
+        );
+        if (productIndex > -1) {
+            cart.products.splice(productIndex, 1);
+            cart.totalPrice = cart.products.reduce(
+                (acc, item) => acc + item.price * item.quantity,
+                0
+            );
+            await cart.save();
+            return res.status(200).json({ message: "Product Removed successfully from Cart", cart });
+        }
+        return res.status(404).json({ message: "Product not found in cart" });
+    } catch (error) {
+        res.status(500).json({ message: "server error" });
+        console.log(error)
+    }
+});
+// @route GET /api/cart
+// @desc get the cart
+// @access Public
+Router.get("/", async (req, res) => {
+    const { guestId, userId } = req.query
+    try {
+        let cart = await getCart(userId, guestId)
+        if (!cart) return res.status(404).json({ message: "Cart not found" });
+        return res.status(200).json({ cart });
+    } catch (error) {
+        res.status(500).json({ message: "server error" });
+    }
+})
+
+
+
+
+module.exports = Router
