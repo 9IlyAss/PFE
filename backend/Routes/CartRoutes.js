@@ -125,7 +125,7 @@ Router.put("/", async (req, res) => {
             return res.status(404).json({ message: "Product not found in cart" });
         }
     } catch (error) {
-        console.error("Error updating cart:", error);
+        console.log("Error updating cart:", error);
         return res.status(500).json({ message: " server error" });
     }
 });
@@ -174,6 +174,60 @@ Router.get("/", async (req, res) => {
         res.status(500).json({ message: "server error" });
     }
 })
+
+// @route POST /api/cart/merge
+// @desc merge guest cart into user cart on login
+// @access Private
+Router.post("/merge", protect, async (req, res) => {
+
+    const { guestId } = req.body
+    try {
+        let guestCart = await Cart.findOne({ guestId })
+        let userCart = await Cart.findOne({ user: req.user._id })
+        if (guestCart) {
+            if (guestCart.products.length === 0)
+                return res.status(404).json({ message: "Cart not found" });
+            if (userCart) {
+                guestCart.products.forEach((guestItem) => {
+                    //check if product exist in cart
+                    const productIndex = userCart.products.findIndex(
+                        (p) =>
+                            p.productId.toString() === guestItem.productId &&
+                            p.size === guestItem.size &&
+                            p.color === guestItem.color
+                    );
+                    if (productIndex > -1)
+                        userCart.products[productIndex].quantity += guestItem.quantity
+                    else
+                        userCart.products.push(guestItem)
+                })
+                userCart.totalPrice = userCart.products.reduce(
+                    (acc, item) => acc + item.price * item.quantity,
+                    0
+                );
+                await userCart.save()
+                //delete cart after mergin
+                Cart.deleteOne({ guestId })
+            } else {
+                guestCart.user = req.user._id;
+                guestCart.guestId = undefined
+                await guestCart.save()
+                return res.status(200).json(guestCart);
+            }
+        } else {
+            if (userCart)
+                res.status(200).json(userCart);
+            else
+                res.status(404).json({ message: "Guest cart not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "server error" });
+        console.error("Error mergin cart:", error);
+
+    }
+})
+
+
 
 
 
