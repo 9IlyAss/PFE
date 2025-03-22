@@ -61,7 +61,7 @@ Router.put("/:id",protect,admin,async (req,res)=>{
         UpdateProduct.dimensions = dimensions || UpdateProduct.dimensions
         UpdateProduct.weight = weight || UpdateProduct.weight
         UpdateProduct.sku = sku || UpdateProduct.sku
-        const updatedProduct = await UpdateProduct.save();
+        const updatedProduct = await  UpdateProduct.save();
         res.json({ message: "Product Updated successfully", updatedProduct });
         }
         catch(error){

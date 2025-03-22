@@ -26,7 +26,7 @@ Router.post("/register", async (req, res) => {
                         _id : NewUser._id,
                         name : NewUser.name,
                         email : NewUser.email,
-                        role : NewUser.role
+                        role : NewUser.role,
                     },
                     token,
                 }
