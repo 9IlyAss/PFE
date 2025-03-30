@@ -2,9 +2,12 @@ import { IoMdClose } from 'react-icons/io';
 import CartContents from '../Cart/CartContents';
 import { useNavigate } from 'react-router-dom';
 
+// Uu^7l{"4 paypal password 
+
 const CartDrawer = ({drawerOpen , toggleCartDrawer}) => {
     const navigate = useNavigate();
     const handleCheckout = () => {
+        toggleCartDrawer();
         navigate("/checkout");
     }
 
