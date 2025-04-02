@@ -91,11 +91,11 @@ Router.delete("/:id",protect,admin,async (req,res)=>{
 Router.get("/",async (req,res)=>{
 
     try {
-        const {collections,size,color,gender,minPrice,maxPrice,sortBy,
+        const {collection,size,color,gender,minPrice,maxPrice,sortBy,
                 search,category,material,brand,limit}= req.query
         let filter={};
-        if(collections&&collections.toLocaleLowerCase() !=="all")
-            filter.collections=collections
+        if(collection&&collection.toLocaleLowerCase() !=="all")
+            filter.collections=collection
         if(category&&category.toLocaleLowerCase() !=="all")
             filter.category=category
         if(size)
@@ -110,8 +110,8 @@ Router.get("/",async (req,res)=>{
             filter.gender={ $in : gender}
         if(minPrice || maxPrice){
             filter.price={}
-            if(minPrice) filter.price.gte=Number(minPrice)
-            if(maxPrice) filter.price.lte=Number(maxPrice)
+            if(minPrice) filter.price.$gte=Number(minPrice)
+            if(maxPrice) filter.price.$lte=Number(maxPrice)
         }
         if (search) {
             filter.$or = [

@@ -8,7 +8,7 @@ const loadCartFromStorage = () => {
 };
 
 // Helper function to save cart to localStorage
-const saveCartIOStorage = (cart) => {
+const saveCartToStorage = (cart) => {
   localStorage.setItem("cart", JSON.stringify(cart));
 };
 
@@ -167,19 +167,27 @@ const cartSlice = createSlice({
                 state.error = action.payload?.message || "Faild to update cart quantity";
             })
 
+
+
+            
             .addCase(removeFromCart.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(removeFromCart.fulfilled, (state, action) => {
-                state.loading = false;
-                state.cart = action.payload;
-                saveCartToStorage(action.payload);
-            })
+              state.loading = false;
+                  state.cart = action.payload;
+                  saveCartToStorage(action.payload);
+              
+          })
+          
             .addCase(removeFromCart.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload?.message || "Faild to remove item";
             })
+
+
+
 
             .addCase(mergeCart.pending, (state) => {
                 state.loading = true;

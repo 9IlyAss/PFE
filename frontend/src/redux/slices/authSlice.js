@@ -89,7 +89,6 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;  // Sets the user data from the login response
-                state.error = null;
             })
             // Handling failed login
             .addCase(loginUser.rejected, (state, action) => {
@@ -104,7 +103,6 @@ const authSlice = createSlice({
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;  // Sets the user data from the login response
-                state.error = null;
             })
             // Handling failed login
             .addCase(registerUser.rejected, (state, action) => {
