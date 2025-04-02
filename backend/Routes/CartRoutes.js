@@ -10,7 +10,7 @@ const getCart = async (userId, guestId) => {
     if (userId) {
         return await Cart.findOne({ user: userId })
     }
-    else {
+    else if(guestId) {
         return await Cart.findOne({ guestId: guestId })
     }
     return null
@@ -20,7 +20,7 @@ const getCart = async (userId, guestId) => {
 // @desc Create cart for user if he's guest or user 
 // @access Public
 Router.post("/", async (req, res) => {
-    const { productId, size, color, quantity, guestId, userId } = req.body;
+    const { productId,quantity, size, color, guestId, userId } = req.body;
     try {
         const product = await Product.findById(productId);
         if (!product) return res.status(404).json({ message: 'Product not found' });
@@ -29,7 +29,7 @@ Router.post("/", async (req, res) => {
 
         if (cart) {
             const productIndex = cart.products.findIndex(
-                p => p.productId.toString() === productId &&
+                (p) => p.productId.toString() === productId &&
                     p.size === size &&
                     p.color === color
             );
@@ -88,7 +88,7 @@ Router.post("/", async (req, res) => {
 // @desc Update quantity in cart for user or guest
 // @access Public
 Router.put("/", async (req, res) => {
-    const { productId, size, color, quantity, guestId, userId } = req.body;
+    const { productId,quantity, size, color,  guestId, userId } = req.body;
 
     try {
         // Get cart for the user or guest
@@ -134,7 +134,7 @@ Router.put("/", async (req, res) => {
 // @desc remove a product from cart
 // @access Public
 Router.delete("/", async (req, res) => {
-    const { guestId, userId, productId, size, color } = req.body;
+    const { productId, size, color,guestId, userId} = req.body;
 
     try {
         let cart = await getCart(userId, guestId);
@@ -165,11 +165,11 @@ Router.delete("/", async (req, res) => {
 // @desc get the cart
 // @access Public
 Router.get("/", async (req, res) => {
-    const { guestId, userId } = req.query
+    const {  userId,guestId } = req.query
     try {
         let cart = await getCart(userId, guestId)
         if (!cart) return res.status(404).json({ message: "Cart not found" });
-        return res.status(200).json({ cart });
+        return res.status(200).json( cart );
     } catch (error) {
         res.status(500).json({ message: "server error" });
     }
