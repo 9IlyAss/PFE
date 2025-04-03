@@ -48,7 +48,7 @@ export const updateUser = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    return response.data.user;
   }
 );
 
@@ -97,7 +97,7 @@ const adminSlice = createSlice({
       })
       // Delete user case
       .addCase(deleteUser.fulfilled, (state, action) => {
-        state.users = state.users.filter((user) => user.id !== action.payload);
+        state.users = state.users.filter((user) => user._id !== action.payload);
       })
 
       // Add user cases
