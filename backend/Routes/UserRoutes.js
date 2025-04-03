@@ -49,9 +49,7 @@ Router.post("/login",async (req,res)=>{
             const isMatch = await user.matchPassword(password)
             if(!isMatch)
                 return res.status(400).json({message : "Incorrect Password"}) 
-            
             const payload= {user : { id:user._id ,role : user.role}};
-            
             jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:"40h"},(err,token) => {
             if(err) throw err
             res.json(
