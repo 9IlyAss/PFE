@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import register from "../assets/register.webp";
+import {registerUser} from "../redux/slices/authSlice"
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {mergeCart} from "../redux/slices/cartSlice"
 
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+    const location =useLocation()
+    const {user,guestId}=useSelector((state)=>state.auth)
+    const {cart}=useSelector((state)=>state.cart)
 
+    const redirect=new URLSearchParams(location.search).get("redirect") ||"/";
+    const isCheckoutRedirect=redirect.includes("checkout")
+    
+    useEffect(()=>{
+        if(user){
+            if(cart?.products.length>0 && guestId){
+                dispatch(mergeCart({guestId,user}))
+                .then(()=>{navigate(isCheckoutRedirect?"/checkout":"/")})
+            }else{
+                navigate(isCheckoutRedirect?"/checkout":"/")
+            }
+        }
+    },[user,guestId,cart,navigate,isCheckoutRedirect,dispatch])
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("User Registered:", { name, email, password });
+        dispatch(registerUser({name,email,password}))
     };
 
     return (
@@ -62,7 +83,7 @@ const Register = () => {
                     </button>
                     <p className="mt-6 text-center text-sm">
                         Already have an account?{" "}
-                        <Link to="/login" className="text-blue-500">
+                        <Link to={`/login?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">
                             Login
                         </Link>
                     </p>
