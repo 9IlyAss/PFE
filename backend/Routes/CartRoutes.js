@@ -2,7 +2,7 @@ const express = require("express")
 const Product = require("../models/Product")
 const Cart = require("../models/Cart")
 
-const { protect, admin } = require("../middleware/authMiddleware")
+const { protect } = require("../middleware/authMiddleware")
 const Router = express.Router()
 
 
@@ -92,7 +92,7 @@ Router.put("/", async (req, res) => {
 
     try {
         // Get cart for the user or guest
-        const cart = await getCart(userId, guestId);
+        let cart = await getCart(userId, guestId);
         if (!cart) return res.status(404).json({ message: "Cart not found" });
 
         // Find the product in the cart
@@ -120,7 +120,7 @@ Router.put("/", async (req, res) => {
 
             // Save the updated cart
             await cart.save();
-            return res.status(200).json({ success: true, cart });
+            return res.status(200).json(cart);
         } else {
             return res.status(404).json({ message: "Product not found in cart" });
         }
@@ -153,7 +153,7 @@ Router.delete("/", async (req, res) => {
                 0
             );
             await cart.save();
-            return res.status(200).json({ message: "Product Removed successfully from Cart", cart });
+            return res.status(200).json( cart );
         }
         return res.status(404).json({ message: "Product not found in cart" });
     } catch (error) {
@@ -167,7 +167,7 @@ Router.delete("/", async (req, res) => {
 Router.get("/", async (req, res) => {
     const {  userId,guestId } = req.query
     try {
-        let cart = await getCart(userId, guestId)
+        const cart = await getCart(userId, guestId)
         if (!cart) return res.status(404).json({ message: "Cart not found" });
         return res.status(200).json( cart );
     } catch (error) {
