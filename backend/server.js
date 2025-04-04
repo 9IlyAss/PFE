@@ -40,7 +40,7 @@ app.use("/api/admin/products",productAdminRoutes)
 app.use("/api/admin/orders",orderAdminRoutes)
 
 app.get("/", (req, res) => {
-    res.send("WELCOME TO RABBIT API!")},
+    res.send("WELCOME TO RABBIT API!")}),
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
