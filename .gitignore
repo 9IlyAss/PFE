@@ -10,9 +10,3 @@ backend/node_modules
 # Environment variables
 frontend/.env
 backend/.env
-
-# Remove environment variables
-git rm --cached frontend/.env backend/.env
-
-# Remove node_modules directories
-git rm --cached -r frontend/node_modules backend/node_modules
