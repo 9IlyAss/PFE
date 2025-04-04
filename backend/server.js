@@ -16,6 +16,7 @@ const productAdminRoutes=require("./Routes/productAdminRoutes")
 const orderAdminRoutes=require("./Routes/orderAdminRoutes")
 
 
+
 app.use(express.json());
 app.use(cors());
 env.config()
@@ -33,6 +34,7 @@ app.use("/api/checkout",CheckoutRoutes)
 app.use("/api/orders",OrderRoutes)
 app.use("/api/upload",UploadRoutes)
 app.use("/api",subscribeRoutes)
+
 
 //admin
 app.use("/api/admin/users",adminRoutes)
