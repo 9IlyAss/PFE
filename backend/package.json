@@ -7,6 +7,7 @@
     "dev": "nodemon backend/server.js",
     "seed": "node seeder.js"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
