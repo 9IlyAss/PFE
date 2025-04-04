@@ -16,6 +16,7 @@ const productAdminRoutes=require("./Routes/productAdminRoutes")
 const orderAdminRoutes=require("./Routes/orderAdminRoutes")
 
 
+
 app.use(express.json());
 app.use(cors());
 env.config()
@@ -34,13 +35,14 @@ app.use("/api/orders",OrderRoutes)
 app.use("/api/upload",UploadRoutes)
 app.use("/api",subscribeRoutes)
 
+
 //admin
 app.use("/api/admin/users",adminRoutes)
 app.use("/api/admin/products",productAdminRoutes)
 app.use("/api/admin/orders",orderAdminRoutes)
 
 app.get("/", (req, res) => {
-    res.send("WELCOME TO RABBIT API!")},
+    res.send("BACKEND API IS WORKKING!")}),
 
 app.listen(PORT, ()=>{
     console.log(`Server is running on http://localhost:${PORT}`);

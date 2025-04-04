@@ -23,6 +23,7 @@ import ProtectedRoute from "./components/Common/ProtectedRoute";
 
 const App = () => {
   return (
+    
     <Provider store={store}>
       <BrowserRouter>
         <Toaster position="top-right" />

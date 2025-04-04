@@ -2,7 +2,11 @@ const mongoose = require("mongoose")
 
 const ConnectDB= async () =>{
     try {
-        await mongoose.connect(process.env.MONGO_URI)
+        await mongoose.connect(process.env.MONGO_URI,{
+            serverSelectionTimeoutMS: 3000,  // Fail fast (3s)
+            socketTimeoutMS: 45000}           // Keep alive
+        )
+        
         console.log("Connection Successe ! ")
     } catch (error) {
         console.log("Connection Failed ",error)

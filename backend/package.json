@@ -5,8 +5,10 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "seed": "node seeder.js"
+    "seed": "node seeder.js",
+    "postinstall": "echo Ignoring Q deprecation warning"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -2,6 +2,7 @@ import { RiDeleteBin3Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { updateCartItemQuantity, removeFromCart } from "../../redux/slices/cartSlice";
 
+
 const CartContents = ({cart,userId,guestId}) => {
     console.log('Cart contents:', cart); // Add this line
 
