@@ -1,6 +1,6 @@
-# Logs
-logs
-*.logs
+.vscode/*
+.idea
+
 
 # Node_Modules
 frontend/node_modules
