@@ -1,0 +1,12 @@
+.vscode/*
+.idea
+
+
+# Node_Modules
+frontend/node_modules
+backend/node_modules
+
+
+# Environment variables
+frontend/.env
+backend/.env
