@@ -15,13 +15,13 @@ Router.get("/", protect, admin,async(req,res)=>{
         res.status(500).json({ message: "server error" });
         console.error("Error mergin cart:", error);
     }
-})
+}) 
 // @route PUT /api/admin/orders/:id
 // @desc Update order status (only admin) 
 // @access Private
 Router.put("/:id", protect, admin,async (req,res)=>{
     try {
-        let order= await Order.findById(req.params.id)
+        let order= await Order.findById(req.params.id).populate("user","name")
         if(!order) return res.status(404).json({ message: 'order not found ' })
             order.status = req.body.status ||  order.status
             order.isDelivered = req.body.status = "Delivered" ? true : order.isDelivered 
