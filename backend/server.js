@@ -5,11 +5,11 @@ const app = express();
 const ConnectDB = require("./config/db")
 
 const userRoutes= require("./Routes/userRoutes")
-const ProductRoutes=require("./Routes/productRoutes")
-const CartRoutes =require("./Routes/cartRoutes")
-const CheckoutRoutes=require("./Routes/checkoutRoutes")
-const OrderRoutes=require("./Routes/orderRoutes")
-const UploadRoutes=require("./Routes/uploadRoutes")
+const productRoutes=require("./Routes/productRoutes")
+const cartRoutes =require("./Routes/cartRoutes")
+const checkoutRoutes=require("./Routes/checkoutRoutes")
+const orderRoutes=require("./Routes/orderRoutes")
+const uploadRoutes=require("./Routes/uploadRoutes")
 const subscribeRoutes=require("./Routes/subscribeRoutes")
 const adminRoutes=require("./Routes/adminRoutes")
 const productAdminRoutes=require("./Routes/productAdminRoutes")
@@ -28,11 +28,11 @@ app.get("/",(req,res)=>{
 });
 
 app.use("/api/users",userRoutes)
-app.use("/api/products",ProductRoutes)
-app.use("/api/cart",CartRoutes)
-app.use("/api/checkout",CheckoutRoutes)
-app.use("/api/orders",OrderRoutes)
-app.use("/api/upload",UploadRoutes)
+app.use("/api/products",productRoutes)
+app.use("/api/cart",cartRoutes)
+app.use("/api/checkout",checkoutRoutes)
+app.use("/api/orders",orderRoutes)
+app.use("/api/upload",uploadRoutes)
 app.use("/api",subscribeRoutes)
 
 
