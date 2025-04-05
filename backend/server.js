@@ -5,8 +5,7 @@ const app = express();
 const ConnectDB = require("./config/db")
 
 const userRoutes= require("./Routes/userRoutes")
-const path = require('path');
-const productRoutes = require(path.join(__dirname, 'Routes', 'productRoutes.js'));
+const productRoutes=require("./Routes/productRoutes")
 const cartRoutes =require("./Routes/cartRoutes")
 const checkoutRoutes=require("./Routes/checkoutRoutes")
 const orderRoutes=require("./Routes/orderRoutes")
@@ -15,7 +14,6 @@ const subscribeRoutes=require("./Routes/subscribeRoutes")
 const adminRoutes=require("./Routes/adminRoutes")
 const productAdminRoutes=require("./Routes/productAdminRoutes")
 const orderAdminRoutes=require("./Routes/orderAdminRoutes")
-
 
 
 
