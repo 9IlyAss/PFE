@@ -4,7 +4,7 @@ const env=require("dotenv")
 const app = express();
 const ConnectDB = require("./config/db")
 
-const userRoutes= require("./Routes/UserRoutes")
+const userRoutes= require("./Routes/userRoutes")
 const ProductRoutes=require("./Routes/productRoutes")
 const CartRoutes =require("./Routes/cartRoutes")
 const CheckoutRoutes=require("./Routes/checkoutRoutes")
