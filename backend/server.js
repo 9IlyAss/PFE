@@ -5,7 +5,8 @@ const app = express();
 const ConnectDB = require("./config/db")
 
 const userRoutes= require("./Routes/userRoutes")
-const productRoutes=require("./Routes/productRoutes.js")
+const path = require('path');
+const productRoutes = require(path.join(__dirname, 'Routes', 'productRoutes.js'));
 const cartRoutes =require("./Routes/cartRoutes")
 const checkoutRoutes=require("./Routes/checkoutRoutes")
 const orderRoutes=require("./Routes/orderRoutes")
