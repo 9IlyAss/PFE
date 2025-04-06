@@ -81,6 +81,7 @@ Router.post("/:id/finalize", protect, async (req, res) => {
             checkout.isFinalized = true
             checkout.finalizedAt = Date.now()
             await checkout.save()
+            await Cart.findOneAndDelete({ user: req.user._id })
             await Checkout.findOneAndDelete({ user: checkout.user })
             res.status(201).json(finalOrder)
         } else if (checkout.isFinalized)

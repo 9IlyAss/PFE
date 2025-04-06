@@ -4,7 +4,7 @@ import PayPalButton from './PayPalButton';
 import { useDispatch, useSelector } from 'react-redux';
 import {createCheckout} from "../../redux/slices/checkoutSlice"
 import axios from 'axios';
-
+import {clearCart} from "../../redux/slices/cartSlice"
 
 
 const Checkout = () => {
@@ -54,6 +54,7 @@ const Checkout = () => {
                     }
                 }
             )
+            
                 await handleFinalizeCheckout(checkoutId);
             
         } catch (error) {
@@ -61,21 +62,24 @@ const Checkout = () => {
         }
         navigate("/order-confirmation");
     } 
-    const handleFinalizeCheckout= async (checkoutId)=>{
-        try{
-            const response=await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
-            {},{
-                headers :{
-                    Authorization : `Bearer ${localStorage.getItem("userToken")}`
+    const handleFinalizeCheckout = async (checkoutId) => {
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/finalize`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+                    },
                 }
-            })
-                navigate("/order-confirmation ")
-            console.log(checkoutId)
-        }catch{
-            console.error(error)
-
+            );
+                navigate("/order-confirmation");
+            console.log("Checkout finalized:", checkoutId);
+        } catch (error) {
+            console.error("Error finalizing checkout:", error);
         }
-    }
+    };
+    
     if(loading) return <p>Loading cart ...</p>
     if(error) return <p>Error :{error}</p>
     if(!cart ||!cart.products||cart.products.length===0){

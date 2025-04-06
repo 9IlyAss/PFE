@@ -12,7 +12,7 @@ Router.post("/",protect,admin,async (req,res)=>{
             countInStock,sku,category,brand,sizes,
             colors,collections,material,gender,images,
             isFeatured,isPublished,tags,dimensions,weight}=req.body
-    try{
+    try{ 
         let exist=await Product.findOne({sku})
         if(exist)
             return res.status(400).json({message : "Product already exist"})
@@ -21,7 +21,7 @@ Router.post("/",protect,admin,async (req,res)=>{
             colors,collections,material,gender,images,
             isFeatured,isPublished,tags,dimensions,weight,user:req.user._id     })
             await NewProduct.save()
-            return res.status(201).json({ message: "Product created successfully", NewProduct });
+            return res.status(201).json(NewProduct);
         }
     catch(error){
         res.status(500).send("Server Error");
