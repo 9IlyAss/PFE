@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "name": "backend",
   "builds": [
     {
       "src": "server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "Routes/*.js",
       "use": "@vercel/node"
     }
   ],
@@ -15,6 +10,15 @@
     {
       "src": "/(.*)",
       "dest": "server.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://kz-eight.vercel.app" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" }
+      ]
     }
   ]
 }
