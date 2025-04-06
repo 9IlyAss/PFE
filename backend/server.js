@@ -20,15 +20,15 @@ const orderAdminRoutes=require("./Routes/orderAdminRoutes")
 app.use(express.json());
 env.config()
 
-const corsOptions = {
-    origin: [
-      'https://pfe-lk5p.vercel.app', // Your frontend URL
-      'http://localhost:3000'         // For local dev
-    ],
-    credentials: true
-  };
-  app.use(cors(corsOptions)); 
-
+// const corsOptions = {
+//     origin: [
+//       'https://pfe-lk5p.vercel.app', // Your frontend URL
+//       'http://localhost:9000'         // For local dev
+//     ],
+//     credentials: true
+//   };
+//   app.use(cors(corsOptions)); 
+app.use(cors())
 const PORT =process.env.PORT || 3000;
 ConnectDB();
 app.get("/",(req,res)=>{

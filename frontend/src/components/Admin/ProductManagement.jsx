@@ -20,7 +20,15 @@ const ProductManagement = () => {
     if(error) return <p>Error : {error} </p>
   return (
     <div className="max-w-7xl mx-auto p-6">
-        <h2 className="text-2xl font-bold mb-6">Product Management</h2>
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold">Product Management</h2>
+                <Link 
+                    to="/admin/products/new"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+                >
+                    Add New Product
+                </Link>
+            </div>
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
             <table className="min-w-full text-left text-gray-500">
                 <thead className="bg-gray-100 text-xs uppercase text-gray-700">
