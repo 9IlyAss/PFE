@@ -21,7 +21,7 @@ env.config();
 
 app.use(
   cors({
-    origin: ["https://kz-eight.vercel.app", "http://localhost:9000"],
+    origin: ["https://kz-eight.vercel.app", "http://localhost:5173"],
     credentials: true,
   })
 );
