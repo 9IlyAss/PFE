@@ -20,15 +20,9 @@ const orderAdminRoutes=require("./Routes/orderAdminRoutes")
 app.use(express.json());
 env.config()
 
-// const corsOptions = {
-//   origin: [
-//       'https://kz-eight.vercel.app', // ton frontend
-//       'http://localhost:9000'        // pour dev local si tu utilises Vite
-//   ],
-//   credentials: true, // autorise les cookies ou headers auth si nécessaires
-// };
-
-app.use(cors());
+app.use(cors({
+    origin: 'https://pfe-nu.vercel.app'
+  }));
 
 const PORT =process.env.PORT || 3000;
 ConnectDB();
