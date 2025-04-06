@@ -22,7 +22,7 @@ env.config()
 
 const corsOptions = {
     origin: [
-      'https://pfe-lk5p.vercel.app', // Your frontend URL
+      'https://kz-eight.vercel.app/', // Your frontend URL
       'http://localhost:9000'         // For local dev
     ],
     credentials: true
